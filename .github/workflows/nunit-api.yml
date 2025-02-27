@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
     inputs:
       tests_branch:
-        description: 'Target branch for pmm-ui-tests repository'
+        description: 'Target branch for tests repository'
         type: string
         default: 'main'
         required: true
@@ -14,7 +14,7 @@ on:
         type: string
         required: false
       api_version:
-        description: 'Version of the pmm server used for testing'
+        description: 'Version of the API to setup for testing'
         type: string
         default: 'dev-latest'
         required: true
