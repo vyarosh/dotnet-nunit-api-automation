@@ -1,5 +1,5 @@
 ---
-name: runner-e2e-tests-playwright
+name: api-tests-nunit
 
 on:
   workflow_dispatch:
