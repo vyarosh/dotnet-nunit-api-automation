@@ -1,0 +1,63 @@
+---
+name: api-tests-feature-build
+
+on:
+  workflow_dispatch:
+    inputs:
+      tests_branch:
+        description: 'Target branch for tests repository'
+        type: string
+        default: 'main'
+        required: true
+      test_flag:
+        description: 'Flag to run only specific portion of the tests.'
+        type: string
+        required: false
+      api_version:
+        description: 'Version of the API to setup for testing'
+        type: string
+        default: 'dev-latest'
+        required: true
+      deploy_type:
+        description: 'Select test env deploy type:'
+        required: true
+        default: 'dev-latest'
+        type: choice
+        options:
+          - clean deploy
+          - no database
+          - quick deploy
+      push_report:
+        description: 'Create report to Jira:'
+        required: false
+        default: false
+        type: boolean
+
+jobs:
+  tests:
+    name: Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      SHA: ${{ inputs.sha || 'null' }}
+      BASE_URL: https://127.0.0.1
+      ADMIN_PASSWORD: admin
+
+      TESTS_BRANCH: ${{ inputs.tests_branch }}
+      PMM_TEST_FLAG: ${{ inputs.test_flag }}
+
+    steps:
+      - name: 'Checkout API tests: "${{ inputs.tests_branch }}"'
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tests_branch }}
+          path: ./dotnet-nunit-api-automation
+
+      - name: 'Install playwright'
+        working-directory: ./dotnet-nunit-api-automation
+        run: |
+          echo "install playwright!!"
+
+      - name: 'run tests'
+        run: |
+          echo "run nunit tests"
